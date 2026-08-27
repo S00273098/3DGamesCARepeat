@@ -40,11 +40,12 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, interactionDistance))
         {
-            Door door = hit.collider.GetComponent<Door>();
+            IInteractable interactable =
+                hit.collider.GetComponent<IInteractable>();
 
-            if (door != null)
+            if (interactable != null)
             {
-                door.Open();
+                interactable.Interact();
             }
         }
     }

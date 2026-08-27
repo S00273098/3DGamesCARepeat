@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour, IInteractable
 {
     public float openDistance = 3f;
     public float openSpeed = 3f;
@@ -26,6 +26,11 @@ public class Door : MonoBehaviour
                 openSpeed * Time.deltaTime
             );
         }
+    }
+
+    public void Interact()
+    {
+        Open();
     }
 
     public void Open()
