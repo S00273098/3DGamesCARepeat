@@ -56,12 +56,12 @@ public class Weapon : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, weaponData.range))
         {
-            //EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
+            EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
 
-            //if (enemy != null)
-            //{
-            //    enemy.TakeDamage(weaponData.damage);
-            //}
+            if (enemy != null)
+            {
+                enemy.TakeDamage(weaponData.damage);
+            }
         }
 
         Debug.Log("Shot! Ammo: " + currentAmmo);
