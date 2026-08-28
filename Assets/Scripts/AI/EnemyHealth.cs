@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public float maxHealth = 100f;
+    public EnemyData enemyData;
 
     private float currentHealth;
 
+    public float CurrentHealth => currentHealth;
+
     private void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = enemyData.maxHealth;
     }
 
     public void TakeDamage(float damage)
@@ -27,6 +29,14 @@ public class EnemyHealth : MonoBehaviour
     {
         Debug.Log("Enemy died!");
 
-        Destroy(gameObject);
+        EnemyController controller =
+            GetComponent<EnemyController>();
+
+        if (controller != null)
+        {
+            controller.ChangeState(controller.DeadState);
+        }
+
+        Destroy(gameObject, 2f);
     }
 }

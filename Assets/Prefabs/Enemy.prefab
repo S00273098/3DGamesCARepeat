@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c3161f0c471d4a4a96430294634baf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 100
+  enemyData: {fileID: 11400000, guid: c03526913b6c68a479a74c52e90a59fb, type: 2}
 --- !u!195 &6939189213698174705
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb54e6f316c7d3428bbbfa8bb72f763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
-  player: {fileID: 0}
-  detectionRange: 10
-  attackRange: 2
+  player: {fileID: 6096624290219231380, guid: 7ffe06eb09274e94e94cbce929924095, type: 3}
+  patrolPoints: []
+  enemyData: {fileID: 11400000, guid: c03526913b6c68a479a74c52e90a59fb, type: 2}
   agent: {fileID: 0}

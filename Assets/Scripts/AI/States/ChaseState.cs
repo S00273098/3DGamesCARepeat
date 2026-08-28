@@ -25,7 +25,7 @@ public class ChaseState : IAIState
 
         float distance = enemy.DistanceToPlayer();
 
-        if (distance <= enemy.attackRange)
+        if (distance <= enemy.enemyData.attackRange)
         {
             enemy.ChangeState(enemy.AttackState);
         }

@@ -5,9 +5,8 @@ public class EnemyController : MonoBehaviour
 {
     public Transform player;
     public Transform[] patrolPoints;
-    public float detectionRange = 10f;
-    public float attackRange = 2f;
-    public float fieldOfView = 120f;
+    public EnemyData enemyData;
+
     [HideInInspector]
     public NavMeshAgent agent;
 
@@ -16,6 +15,7 @@ public class EnemyController : MonoBehaviour
     private PatrolState patrolState;
     private ChaseState chaseState;
     private AttackState attackState;
+    private DeadState deadState;
 
     private void Awake()
     {
@@ -24,10 +24,13 @@ public class EnemyController : MonoBehaviour
         patrolState = new PatrolState(this);
         chaseState = new ChaseState(this);
         attackState = new AttackState(this);
+        deadState = new DeadState(this);
     }
 
     private void Start()
     {
+        agent.speed = enemyData.movementSpeed;
+
         ChangeState(patrolState);
     }
 
@@ -55,17 +58,16 @@ public class EnemyController : MonoBehaviour
 
         float distanceToPlayer = directionToPlayer.magnitude;
 
-        if (distanceToPlayer > detectionRange)
+        if (distanceToPlayer > enemyData.detectionRange)
             return false;
 
         directionToPlayer.Normalize();
 
-        float angle = Vector3.Angle(
-            transform.forward,
-            directionToPlayer
-        );
+        float dot = Vector3.Dot(transform.forward,directionToPlayer);
 
-        if (angle > fieldOfView / 2f)
+        float fieldOfViewCosine = Mathf.Cos(enemyData.fieldOfView * 0.5f * Mathf.Deg2Rad);
+
+        if (dot < fieldOfViewCosine)
             return false;
 
         Vector3 rayOrigin = transform.position + Vector3.up * 1f;
@@ -74,7 +76,7 @@ public class EnemyController : MonoBehaviour
             rayOrigin,
             directionToPlayer,
             out RaycastHit hit,
-            detectionRange))
+            enemyData.detectionRange))
         {
             if (hit.transform == player)
             {
@@ -96,4 +98,5 @@ public class EnemyController : MonoBehaviour
     public PatrolState PatrolState => patrolState;
     public ChaseState ChaseState => chaseState;
     public AttackState AttackState => attackState;
+    public DeadState DeadState => deadState;
 }

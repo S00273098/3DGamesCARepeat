@@ -4,7 +4,7 @@ public class AttackState : IAIState
 {
     private EnemyController enemy;
 
-    private float attackCooldown = 1f;
+    private float attackCooldown;
     private float nextAttackTime;
 
     public AttackState(EnemyController enemy)
@@ -14,6 +14,9 @@ public class AttackState : IAIState
 
     public void Enter()
     {
+        attackCooldown = enemy.enemyData.attackCooldown;
+        nextAttackTime = Time.time;
+
         Debug.Log("AI entered ATTACK state");
 
         enemy.agent.isStopped = true;
@@ -26,7 +29,7 @@ public class AttackState : IAIState
 
         float distance = enemy.DistanceToPlayer();
 
-        if (distance > enemy.attackRange)
+        if (distance > enemy.enemyData.attackRange)
         {
             enemy.ChangeState(enemy.ChaseState);
             return;
@@ -46,7 +49,7 @@ public class AttackState : IAIState
 
         if (playerHealth != null)
         {
-            playerHealth.TakeDamage(20f);
+            playerHealth.TakeDamage(enemy.enemyData.attackDamage);
         }
     }
 
