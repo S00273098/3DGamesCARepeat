@@ -41,7 +41,13 @@ public class AttackState : IAIState
 
     private void Attack()
     {
-        Debug.Log("Enemy attacks player!");
+        PlayerHealth playerHealth =
+            enemy.player.GetComponent<PlayerHealth>();
+
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(20f);
+        }
     }
 
     public void Exit()

@@ -4,10 +4,10 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     public Transform player;
-
+    public Transform[] patrolPoints;
     public float detectionRange = 10f;
     public float attackRange = 2f;
-
+    public float fieldOfView = 120f;
     [HideInInspector]
     public NavMeshAgent agent;
 
@@ -50,12 +50,39 @@ public class EnemyController : MonoBehaviour
         if (player == null)
             return false;
 
-        float distance = Vector3.Distance(
-            transform.position,
-            player.position
+        Vector3 directionToPlayer =
+            player.position - transform.position;
+
+        float distanceToPlayer = directionToPlayer.magnitude;
+
+        if (distanceToPlayer > detectionRange)
+            return false;
+
+        directionToPlayer.Normalize();
+
+        float angle = Vector3.Angle(
+            transform.forward,
+            directionToPlayer
         );
 
-        return distance <= detectionRange;
+        if (angle > fieldOfView / 2f)
+            return false;
+
+        Vector3 rayOrigin = transform.position + Vector3.up * 1f;
+
+        if (Physics.Raycast(
+            rayOrigin,
+            directionToPlayer,
+            out RaycastHit hit,
+            detectionRange))
+        {
+            if (hit.transform == player)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public float DistanceToPlayer()
