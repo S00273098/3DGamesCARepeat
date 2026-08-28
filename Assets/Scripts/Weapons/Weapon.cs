@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour
     private PlayerInputActions inputActions;
 
     private int currentAmmo;
+    public int CurrentAmmo => currentAmmo;
     private float nextFireTime;
 
     private void Awake()

@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public Camera playerCamera;
+    public GameObject interactionText;
     public float interactionDistance = 3f;
 
     private PlayerInputActions inputActions;
@@ -25,6 +27,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
+        CheckForInteractable();
+
         if (inputActions.Player.Interact.WasPressedThisFrame())
         {
             Interact();
@@ -48,5 +52,30 @@ public class PlayerInteraction : MonoBehaviour
                 interactable.Interact();
             }
         }
+    }
+
+    private void CheckForInteractable()
+    {
+        Ray ray = new Ray(
+            playerCamera.transform.position,
+            playerCamera.transform.forward
+        );
+
+        if (Physics.Raycast(
+            ray,
+            out RaycastHit hit,
+            interactionDistance))
+        {
+            IInteractable interactable =
+                hit.collider.GetComponent<IInteractable>();
+
+            if (interactable != null)
+            {
+                interactionText.SetActive(true);
+                return;
+            }
+        }
+
+        interactionText.SetActive(false);
     }
 }

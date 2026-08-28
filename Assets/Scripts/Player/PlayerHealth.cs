@@ -6,6 +6,8 @@ public class PlayerHealth : MonoBehaviour
 
     private float currentHealth;
 
+    public float CurrentHealth => currentHealth;
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -21,6 +23,11 @@ public class PlayerHealth : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void SetHealth(float health)
+    {
+        currentHealth = Mathf.Clamp(health, 0f, maxHealth);
     }
 
     private void Die()

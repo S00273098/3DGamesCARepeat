@@ -6,6 +6,8 @@ public class Switch : MonoBehaviour, IInteractable
 
     private bool activated = false;
 
+    public bool IsActivated => activated;
+
     public void Interact()
     {
         if (activated)
@@ -16,5 +18,15 @@ public class Switch : MonoBehaviour, IInteractable
         door.Open();
 
         Debug.Log("Switch activated!");
+    }
+
+    public void LoadState(bool state)
+    {
+        activated = state;
+
+        if (activated)
+        {
+            door.Open();
+        }
     }
 }
